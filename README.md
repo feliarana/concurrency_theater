@@ -58,12 +58,16 @@ You can test the ticket reservation feature using Postman or cURL. To reserve a 
         --header 'Content-Type: application/json' \
         --data-raw '{"status": "reserved", "user_id": 1, "performance_id": 1, "price": 55}'
    ```
-Ensure the ticket_id, user_id, and performance_id are valid based on the data in your system. The request will reserve a ticket and broadcast updates via WebSockets.
+Ensure the ticket_id, user_id, and performance_id are valid based on the data in your system. 
+
+The request will reserve a ticket and broadcast updates via WebSockets.
 
 
 **WebSocket Updates**
+
 The application uses WebSockets to broadcast ticket updates. Ensure Redis is running to receive real-time updates.
 
 **Troubleshooting**
-Redis Not Running: Ensure Redis is installed and running on the default port (6379).
-Database Connection Issues: Verify that PostgreSQL is running and accessible at the specified host and port.
+- Redis Not Running: Ensure Redis is installed and running on the default port (6379).
+
+- Database Connection Issues: Verify that PostgreSQL is running and accessible at the specified host and port.
