@@ -1,30 +1,20 @@
 class TicketsController < ApplicationController
-  before_action :set_ticket, only: %i[ show update destroy ]
-
-  # GET /tickets
-  def index
-    @tickets = Ticket.all
-
-    render json: @tickets
-  end
-
-  # GET /tickets/1
-  def show
-    render json: @ticket
-  end
+  before_action :set_ticket, only: [ :update, :destroy ]
 
   # POST /tickets
   def create
-    @ticket = Ticket.new(ticket_params)
+    Ticket.transaction do
+      @ticket = Ticket.lock.find(params[:ticket_id])
 
-    if @ticket.save
-      render json: @ticket, status: :created, location: @ticket
-    else
-      render json: @ticket.errors, status: :unprocessable_entity
+      if @ticket.available?
+        @ticket.update!(status: :reserved, user_id: params[:user_id])
+        render json: @ticket, status: :created
+      else
+        render json: { error: "Ticket not available" }, status: :unprocessable_entity
+      end
     end
   end
 
-  # PATCH/PUT /tickets/1
   def update
     if @ticket.update(ticket_params)
       render json: @ticket
@@ -33,19 +23,17 @@ class TicketsController < ApplicationController
     end
   end
 
-  # DELETE /tickets/1
   def destroy
-    @ticket.destroy!
+    @ticket.destroy
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ticket
-      @ticket = Ticket.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def ticket_params
-      params.require(:ticket).permit(:performance_id, :user_id, :status)
-    end
+  def set_ticket
+    @ticket = Ticket.find(params[:id])
+  end
+
+  def ticket_params
+    params.require(:ticket).permit(:status, :user_id)
+  end
 end

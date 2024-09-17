@@ -24,7 +24,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_17_004355) do
 
   create_table "tickets", force: :cascade do |t|
     t.bigint "performance_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
+    t.integer "price"
     t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,6 +36,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_17_004355) do
   create_table "transactions", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "ticket_id", null: false
+    t.integer "amount"
     t.string "transaction_type"
     t.string "status"
     t.datetime "created_at", null: false

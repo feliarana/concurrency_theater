@@ -1,5 +1,5 @@
 class Ticket < ApplicationRecord
   belongs_to :performance
-  belongs_to :user
-  enum status: { available: "available", reserved: "reserved", purchased: "purchased", cancelled: "cancelled" }
+  belongs_to :user, optional: true
+  enum status: { available: "available", sold: "sold", cancelled: "cancelled" }
 end
