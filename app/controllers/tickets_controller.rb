@@ -1,5 +1,11 @@
 class TicketsController < ApplicationController
-  before_action :set_ticket, only: [ :update, :destroy ]
+  after_action :broadcast_ticket_update, only: [ :create ]
+  # before_action :set_ticket, only: [ :update, :destroy ]
+
+  def index
+    @tickets = Ticket.all
+    render json: @tickets
+  end
 
   # POST /tickets
   def create
@@ -15,25 +21,33 @@ class TicketsController < ApplicationController
     end
   end
 
-  def update
-    if @ticket.update(ticket_params)
-      render json: @ticket
-    else
-      render json: @ticket.errors, status: :unprocessable_entity
-    end
-  end
+  # def update
+  #   if @ticket.update(ticket_params)
+  #     render json: @ticket
+  #   else
+  #     render json: @ticket.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-  def destroy
-    @ticket.destroy
-  end
+  # def destroy
+  #   @ticket.destroy
+  # end
 
   private
 
-  def set_ticket
-    @ticket = Ticket.find(params[:id])
+
+  def broadcast_ticket_update
+    return unless @ticket
+
+    ActionCable.server.broadcast("tickets_#{params[:performance_id]}", @ticket)
   end
 
-  def ticket_params
-    params.require(:ticket).permit(:status, :user_id)
-  end
+
+  # def set_ticket
+  #   @ticket = Ticket.find(params[:id])
+  # end
+
+  # def ticket_params
+  #   params.require(:ticket).permit(:status, :user_id)
+  # end
 end

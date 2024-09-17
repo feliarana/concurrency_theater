@@ -22,7 +22,7 @@ performance2 = Performance.create!(
 # Crear 6 tickets para cada performance
 6.times do
   Ticket.create!(
-    status: [ 'available', 'sold', 'cancelled' ].sample,  # Deja algunos tickets como 'reserved' o 'available'
+    status: 'available',
     performance: performance1,
     price: Faker::Number.between(from: 10, to: 100)
   )
@@ -30,7 +30,7 @@ end
 
 6.times do
   Ticket.create!(
-    status: [ 'available', 'sold', 'cancelled' ].sample,  # Deja algunos tickets como 'reserved' o 'available'
+    status: 'available',
     performance: performance2,
     price: Faker::Number.between(from: 10, to: 100)
   )
@@ -49,7 +49,7 @@ Transaction.create!(
   transaction_type: 'purchase', # Tipo de transacción: compra
   amount: ticket1.price
 )
-ticket1.update!(status: 'sold', user: user1) # Actualizar el estado del ticket a 'sold'
+ticket1.update!(status: 'reserved', user: user1) # Actualizar el estado del ticket a 'reserved'
 
 Transaction.create!(
   user: user2, # Asignar a otro usuario aleatorio
@@ -57,6 +57,6 @@ Transaction.create!(
   transaction_type: 'purchase', # Tipo de transacción: compra
   amount: ticket2.price
 )
-ticket2.update!(status: 'sold', user: user2) # Actualizar el estado del ticket a 'sold'
+ticket2.update!(status: 'reserved', user: user2) # Actualizar el estado del ticket a 'reserved'
 
 puts 'Se han creado 10 usuarios, 2 performances, 12 tickets y 2 transacciones.'

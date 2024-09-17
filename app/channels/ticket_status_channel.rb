@@ -1,6 +1,6 @@
 class TicketStatusChannel < ApplicationCable::Channel
   def subscribed
-    # stream_from "some_channel"
+    stream_from "tickets_#{params[:performance_id]}"
   end
 
   def unsubscribed
