@@ -1,13 +1,5 @@
 require 'faker'
 
-# Crear 10 usuarios con solo nombre y email
-10.times do
-  User.create!(
-    name: Faker::Name.name,
-    email: Faker::Internet.email
-  )
-end
-
 # Crear 2 performances
 performance1 = Performance.create!(
   title: "Concert of #{Faker::Music.band}",
@@ -34,6 +26,18 @@ end
     performance: performance2,
     price: Faker::Number.between(from: 10, to: 100)
   )
+end
+
+# Crear 10 usuarios con solo nombre y email
+10.times do
+  password = Faker::Internet.password
+  user = User.create!(
+    name: Faker::Name.name,
+    email: Faker::Internet.email
+  )
+  puts "************************************"
+  puts "Created user #{user.name} with email #{user.email} and password #{password}"
+  puts "************************************"
 end
 
 # Crear 2 transacciones, una por cada performance con un ticket comprado

@@ -1,4 +1,5 @@
 class PerformancesController < ApplicationController
+  before_action :authenticate_user! # , only: %i[ index create update destroy ]
   before_action :set_performance, only: %i[ show update destroy ]
 
   # GET /performances

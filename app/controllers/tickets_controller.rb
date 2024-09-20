@@ -1,4 +1,5 @@
 class TicketsController < ApplicationController
+  before_action :authenticate_user! # , only: %i[ index create update destroy ]
   after_action :broadcast_ticket_update, only: [ :create ]
   # before_action :set_ticket, only: [ :update, :destroy ]
 

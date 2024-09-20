@@ -1,5 +1,5 @@
 class Transaction < ApplicationRecord
   belongs_to :user
   belongs_to :ticket
-  enum transaction_type: { purchase: "purchase", cancellation: "cancellation" }
+  enum transaction_type: { reserve: "reserve", purchase: "purchase", cancel: "cancel" }
 end
