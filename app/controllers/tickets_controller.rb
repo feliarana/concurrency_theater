@@ -1,6 +1,6 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [ :reserve, :purchase, :cancel ]
-  after_action :broadcast_ticket_update, only: [ :create, :purchase, :cancel ]
+  after_action :broadcast_ticket_update, only: [ :reserve, :purchase, :cancel ]
 
   def index
     @tickets = Ticket.all
@@ -8,30 +8,27 @@ class TicketsController < ApplicationController
     render json: @tickets
   end
 
-  # POST /tickets/{ticket_id}/reserve
   def reserve
     handle_ticket(:available?, :reserved)
   end
 
-  # POST /tickets/{ticket_id}/purchase
   def purchase
     handle_ticket(:can_be_purchased?, :purchased)
   end
 
-  # POST /tickets/{ticket_id}/cancel
   def cancel
-    handle_ticket(:can_be_cancelled?, :cancelled)
+    handle_ticket(:can_be_cancelled?, :available)
   end
 
   private
 
   def handle_ticket(status_method, new_status)
     Ticket.transaction do
-      if @ticket.send(status_method, current_user.id)
-        @ticket.update_columns(status: new_status.to_s, user_id: current_user.id)
+      if @ticket.send(status_method, user_id: current_user.id)
+        @ticket.update!(status: new_status.to_s, user_id: current_user.id)
         render json: @ticket, status: :created
       else
-        render json: { error: "Ticket cannot be #{new_status}" }, status: :unprocessable_entity
+        render json: { error: "Ticket cannot be #{new_status}. Status: #{@ticket.status}. First reserve, then purchase (with the same user)" }, status: :unprocessable_entity
       end
     end
   rescue ActiveRecord::RecordInvalid => e
