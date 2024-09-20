@@ -19,7 +19,7 @@ Welcome to the ConcurrencyTheater project! This README provides instructions on 
    ```
 2. Generate the rails secret: `bundle exec rails secret`
 
-2.  **Configure Credentials**
+3.  **Configure Credentials**
 
   Create a .env in the root of the repository. Also paste the secret from the previous step.
   ```bash
@@ -36,7 +36,7 @@ Welcome to the ConcurrencyTheater project! This README provides instructions on 
     DATABASE_POOL=5
   ```
 
-3.  **Setup Database**
+4.  **Setup Database**
 
   Run the following command to create the database, run migrations, and seed the database with initial data:
    ```bash
@@ -44,7 +44,7 @@ Welcome to the ConcurrencyTheater project! This README provides instructions on 
    ```
 
 
-4.  **Start the Application**
+5.  **Start the Application**
 
 Launch the Rails server with:
    ```bash
@@ -52,7 +52,7 @@ Launch the Rails server with:
    ```
 
 
-5.  **Testing with Postman**
+6.  **Testing with Postman**
 
 You can test the ticket reservation feature using Postman or cURL. To reserve a ticket, send a POST request to:
    ```bash
