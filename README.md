@@ -17,21 +17,23 @@ Welcome to the ConcurrencyTheater project! This README provides instructions on 
    ```bash
    bundle install
    ```
+2. Generate the rails secret: `bundle exec rails secret`
+
 2.  **Configure Credentials**
 
-  Set up your credentials for the development environment. Open the credentials file with:
+  Create a .env in the root of the repository. Also paste the secret from the previous step.
   ```bash
-  EDITOR="code --wait" rails credentials:edit
+  nano .env
   ```
 
   Add the following configuration to the file:
   ```yaml
-  development:
-    database_username: postgres
-    database_password: postgres
-    database_host: localhost
-    database_port: 5432
-    database_pool: 5
+    DEVISE_JWT_SECRET_KEY=generated in step2
+    DATABASE_USERNAME=postgres
+    DATABASE_PASSWORD=2yr-DYfrvXT4Cuf9AtjMsYAPZHVWsa_R
+    DATABASE_HOST=localhost
+    DATABASE_PORT=5432
+    DATABASE_POOL=5
   ```
 
 3.  **Setup Database**

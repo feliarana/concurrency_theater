@@ -29,20 +29,40 @@ end
 end
 
 # Crear 10 usuarios con solo nombre y email
-10.times do
+puts "************************************"
+9.times do
   password = Faker::Internet.password
   user = User.create!(
     name: Faker::Name.name,
-    email: Faker::Internet.email
+    email: Faker::Internet.email,
+    password: password,
+    password_confirmation: password,
+    jti: SecureRandom.uuid
   )
   puts "************************************"
   puts "Created user #{user.name} with email #{user.email} and password #{password}"
   puts "************************************"
 end
 
+password = 123456
+user = User.create!(
+  name: 'Lamassa Brosa',
+  email: 'a@a.com',
+  password: password,
+  password_confirmation: password,
+  jti: SecureRandom.uuid
+)
+puts "************************************"
+puts "Created user #{user.name} with email #{user.email} and password #{password}"
+puts "************************************"
+
+puts "************************************"
+
 # Crear 2 transacciones, una por cada performance con un ticket comprado
 ticket1 = Ticket.where(performance: performance1).first
 ticket2 = Ticket.where(performance: performance2).first
+ticket3 = Ticket.where(performance: performance2).second
+ticket4 = Ticket.where(performance: performance2).third
 
 user1= User.order('RANDOM()').first
 user2= User.order('RANDOM()').first
@@ -61,6 +81,15 @@ Transaction.create!(
   transaction_type: 'purchase', # Tipo de transacción: compra
   amount: ticket2.price
 )
+Transaction.create!(
+  user: user2, # Asignar a otro usuario aleatorio
+  ticket: ticket3,
+  transaction_type: 'cancel', # Tipo de transacción: compra
+  amount: ticket3.price
+)
+
 ticket2.update!(status: 'reserved', user: user2) # Actualizar el estado del ticket a 'reserved'
+ticket3.update!(status: 'purchased', user: user2) # Actualizar el estado del ticket a 'reserved'
+ticket4.update!(status: 'cancelled', user: user2) # Actualizar el estado del ticket a 'reserved'
 
 puts 'Se han creado 10 usuarios, 2 performances, 12 tickets y 2 transacciones.'
