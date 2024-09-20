@@ -56,7 +56,8 @@ rails s
 6. **Testing with Postman**
    1. Import Collection, located in the folder postman.
    2. Import the Environment (localhost, also located in the folder postman.
-   3. Ensure the ticket_id, user_id, and performance_id are valid based on the data in your system.
+   3. Make sure to select the localhost environment in Postman before triggering the requests.
+   4. Ensure the ticket_id, user_id, and performance_id are valid based on the data in your system.
 
 The requests will help you generate a Jwt (in the response, after you trigger the **POST /login** . Also you can list, reserve, purchase and cancel tickets. Updates should be sent via WebSockets.
 

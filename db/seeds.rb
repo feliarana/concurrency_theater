@@ -45,7 +45,7 @@ puts "************************************"
 end
 
 password = 123456
-user = User.create!(
+user1 = User.create!(
   name: 'Lamassa Brosa',
   email: 'a@a.com',
   password: password,
@@ -53,7 +53,7 @@ user = User.create!(
   jti: SecureRandom.uuid
 )
 puts "************************************"
-puts "Created user #{user.name} with email #{user.email} and password #{password}"
+puts "Created user #{user1.name} with email #{user1.email} and password #{password}"
 puts "************************************"
 
 puts "************************************"
@@ -64,7 +64,6 @@ ticket2 = Ticket.where(performance: performance2).first
 ticket3 = Ticket.where(performance: performance2).second
 ticket4 = Ticket.where(performance: performance2).third
 
-user1= User.order('RANDOM()').first
 user2= User.order('RANDOM()').first
 
 Transaction.create!(
