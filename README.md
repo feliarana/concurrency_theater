@@ -53,8 +53,9 @@ Launch the Rails server with:
 rails s
 ```
 
-6. **Testing with Postman**
-## ![Setup tutorial.](https://github.com/user-attachments/assets/f24cd655-4000-4635-a52d-fd474727be8f)
+6. 
+## Postman setup tutorial.
+![Setup tutorial.](https://github.com/user-attachments/assets/f24cd655-4000-4635-a52d-fd474727be8f)
    1. Import Collection, located in the folder postman.
    2. Import the Environment (localhost, also located in the folder postman.
    3. Make sure to select the localhost environment in Postman before triggering the requests.
