@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "24538799-91eb-419b-b7bc-2c89a27b03f3",
+		"name": "concu theater",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36696590"
+	},
+	"item": [
+		{
+			"name": "sign in",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Login successful\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    var bearerToken = pm.response.headers.get('Authorization');",
+							"    ",
+							"    if (bearerToken) {",
+							"        // Extract the token part if the header is in the format \"Bearer <token>\"",
+							"        var tokenParts = bearerToken.split(' ');",
+							"        var token = tokenParts.length > 1 ? tokenParts[1] : bearerToken;",
+							"        ",
+							"        pm.environment.set(\"jwt\", token);",
+							"        console.log(\"Token saved to environment variable: \" + token);",
+							"    } else {",
+							"        console.log(\"Authorization header not found in response\");",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"user\": {\n    \"email\": \"a@a.com\",\n    \"password\": \"123456\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				},
+				"description": "Generated from cURL: curl -u \"email@example.com:password\" -X POST http://localhost:3000/users/sign_in\n"
+			},
+			"response": []
+		},
+		{
+			"name": "sign out",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Logout successful\", function () {",
+							"    pm.response.to.have.status(200);",
+							"    ",
+							"    // Clear the jwt from the environment",
+							"    pm.environment.unset(\"jwt\");",
+							"    ",
+							"    console.log(\"Token removed from environment variables\");",
+							"});",
+							"",
+							"// Optionally, verify that the token has been removed",
+							"pm.test(\"Token has been removed\", function () {",
+							"    var token = pm.environment.get(\"jwt\");",
+							"    pm.expect(token).to.be.undefined;",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"logout"
+					]
+				},
+				"description": "Generated from cURL: curl -u \"email@example.com:password\" -X POST http://localhost:3000/users/sign_in\n"
+			},
+			"response": []
+		},
+		{
+			"name": "tickets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/tickets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "reserve",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "user_id",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/tickets/1/reserve",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tickets",
+						"1",
+						"reserve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchase",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/tickets/1/purchase",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tickets",
+						"1",
+						"purchase"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "cancel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/tickets/1/cancel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tickets",
+						"1",
+						"cancel"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
