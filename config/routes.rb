@@ -12,6 +12,9 @@ Rails.application.routes.draw do
   resources :performances, only: [ :index, :show ]
   resources :transactions, only: [ :create ]
   resources :tickets, only: [ :index, :create ] do
+    collection do
+      post "reset", to: "tickets#reset"
+    end
     member do
       post "reserve", to: "tickets#reserve"
       post "purchase", to: "tickets#purchase"
