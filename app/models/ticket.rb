@@ -18,9 +18,9 @@ class Ticket < ApplicationRecord
   end
 
   def reserved?(user_id: nil)
-    return false if reserved_at.nil?
+    return false if status == "reserved" && reserved_at.nil? && user_id == nil
 
-    if reserved_at >= Time.zone.now
+    if reserved_until.present? && reserved_until >= Time.zone.now
       true
     else
       mark_as_available_if_reserved
@@ -31,7 +31,9 @@ class Ticket < ApplicationRecord
   private
 
   def mark_as_available_if_reserved
-    update(status: "available") if status == "reserved"
+    return if status != "reserved"
+
+    update_columns(status: "available", reserved_at: nil, reserved_until: nil, user_id: nil)
   end
 
   def user_must_be_present_if_reserved
