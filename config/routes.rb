@@ -21,4 +21,6 @@ Rails.application.routes.draw do
       post "cancel", to: "tickets#cancel"
     end
   end
+
+  mount ActionCable.server => "/cable"
 end

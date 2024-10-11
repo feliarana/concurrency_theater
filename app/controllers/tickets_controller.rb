@@ -1,9 +1,11 @@
 class TicketsController < ApplicationController
   before_action :set_ticket, only: [ :reserve, :purchase, :cancel ]
   after_action :broadcast_ticket_update, only: [ :reserve, :purchase, :cancel ]
+  after_action :broadcast_reset, only: [ :reset ]
 
   def index
     @tickets = Ticket.all
+    # TODO: this will refresh the status of reserved tickets that havent finished the purchase
     @tickets.each(&:reserved?)
     render json: @tickets
   end
@@ -13,11 +15,10 @@ class TicketsController < ApplicationController
   end
 
   def purchase
-    return render_ticket_error(:purchased) if !@ticket.reserved?
+    return render_ticket_error(:purchased) unless @ticket.reserved?
 
     handle_ticket(:can_be_purchased?, :purchased)
   end
-
 
   def cancel
     handle_ticket(:can_be_cancelled?, :available)
@@ -25,6 +26,8 @@ class TicketsController < ApplicationController
 
   def reset
     Ticket.update_all(status: "available", reserved_at: nil, reserved_until: nil, user_id: nil)
+    broadcast_reset
+    head :no_content
   end
 
   private
@@ -41,8 +44,6 @@ class TicketsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
-
-  private
 
   def ticket_eligible?(status_method)
     @ticket.send(status_method, user_id: current_user.id)
@@ -74,6 +75,19 @@ class TicketsController < ApplicationController
   end
 
   def broadcast_ticket_update
-    ActionCable.server.broadcast("tickets_#{params[:performance_id]}", @ticket) if @ticket
+    return unless @ticket
+
+    ActionCable.server.broadcast("performance_#{@ticket.performance.id}", {
+      action: action_name,
+      ticket: @ticket
+    })
+  end
+
+  def broadcast_reset
+    tickets = Ticket.all
+    ActionCable.server.broadcast("performance_#{@ticket.performance.id}", {
+      action: "reset",
+      tickets: tickets
+    })
   end
 end

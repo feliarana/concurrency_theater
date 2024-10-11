@@ -46,7 +46,7 @@ end
 
 password = 123456
 user1 = User.create!(
-  name: 'Lamassa Brosa',
+  name: 'Lobo Tripero',
   email: 'a@a.com',
   password: password,
   password_confirmation: password,
