@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :transactions, only: [ :create ]
   resources :tickets, only: [ :index, :create ] do
     collection do
+      get "user_tickets"
       post "reset", to: "tickets#reset"
     end
     member do

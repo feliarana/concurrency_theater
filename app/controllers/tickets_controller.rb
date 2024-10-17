@@ -10,6 +10,11 @@ class TicketsController < ApplicationController
     render json: @tickets
   end
 
+  def user_tickets
+    @tickets = Ticket.where(user_id: current_user.id)
+    render json: @tickets
+  end
+
   def reserve
     handle_ticket(:available?, :reserved)
   end
