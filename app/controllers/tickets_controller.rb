@@ -95,9 +95,13 @@ class TicketsController < ApplicationController
 
   def broadcast_reset
     tickets = Ticket.all
-    ActionCable.server.broadcast("performance_#{@ticket.performance.id}", {
-      action: "reset",
-      tickets: tickets
-    })
+    return if tickets.empty?
+
+    tickets.each{ |t| 
+      ActionCable.server.broadcast("performance_#{t.performance.id}", {
+        action: "reset",
+        tickets: tickets
+      })
+    }
   end
 end
