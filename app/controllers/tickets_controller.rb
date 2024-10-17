@@ -11,8 +11,13 @@ class TicketsController < ApplicationController
   end
 
   def user_tickets
-    @tickets = Ticket.where(user_id: current_user.id)
-    render json: @tickets
+    @tickets = Ticket.includes(:user, :performance).where(user_id: current_user.id)
+    render json: @tickets.as_json(
+      include: {
+        user: { only: [:id, :name] },
+        performance: { only: [:id, :title] }
+    }
+  )
   end
 
   def reserve
