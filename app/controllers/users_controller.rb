@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include RackSessionFix
+  include Users::RackSessionFix
   respond_to :json
 
   before_action :set_user, only: %i[ show update destroy ]
