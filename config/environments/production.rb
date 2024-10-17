@@ -93,4 +93,12 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
   config.action_controller.raise_on_missing_callback_actions = false
+
+  config.action_cable.mount_path = '/cable'
+  config.action_cable.url = 'wss://concurrency-theater-22c33b55e29a.herokuapp.com/cable'
+  config.action_cable.allowed_request_origins = [
+    'https://concurrency-theater-front.vercel.app',
+    'http://concurrency-theater-front.vercel.app',
+    /http:\/\/localhost:\d+/
+  ]
 end

@@ -31,7 +31,7 @@ end
 # Crear 10 usuarios con solo nombre y email
 puts "************************************"
 9.times do
-  password = Faker::Internet.password
+  password = 123456
   user = User.create!(
     name: Faker::Name.name,
     email: Faker::Internet.email,
