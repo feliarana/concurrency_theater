@@ -70,7 +70,5 @@ RSpec.configure do |config|
 end
 
 def jwt_token_for(user)
-  payload = { sub: user.id }
-  secret_key = ENV["DEVISE_JWT_SECRET_KEY"] || Rails.application.credentials.devise[:secret_key]
-  JWT.encode(payload, secret_key, 'HS256')
+  Warden::JWTAuth::UserEncoder.new.call(user, :user, nil).first
 end
