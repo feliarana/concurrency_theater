@@ -1,11 +1,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  pool: <%= ENV['DATABASE_POOL'] || Rails.application.credentials.dig(Rails.env.to_sym, :database_pool) %>
-  host: <%= ENV['DATABASE_HOST'] || Rails.application.credentials.dig(Rails.env.to_sym, :database_host) %>
-  port: <%= ENV['DATABASE_PORT'] || Rails.application.credentials.dig(Rails.env.to_sym, :database_port) %>
-  username: <%= ENV['DATABASE_USERNAME'] || Rails.application.credentials.dig(Rails.env.to_sym, :database_username) %>
-  password: <%= ENV['DATABASE_PASSWORD'] || Rails.application.credentials.dig(Rails.env.to_sym, :database_password) %>
+  pool: <%= ENV['DATABASE_POOL'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
+  port: <%= ENV['DATABASE_PORT'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>
 
 development:
   <<: *default
@@ -17,4 +17,3 @@ test:
 
 production:
   <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
