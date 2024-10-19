@@ -3,6 +3,7 @@ class PerformancesController < ApplicationController
 
   # GET /performances
   def index
+    Rails.logger.info("[PerformancesController#index] Performing performance listing process !")
     @performances = Performance.all
 
     render json: @performances
@@ -10,6 +11,7 @@ class PerformancesController < ApplicationController
 
   # GET /performances/1
   def show
+    Rails.logger.info("[PerformancesController#show] Performing performance #{@performance.title} show process !")
     render json: @performance
   end
 

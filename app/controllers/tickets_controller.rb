@@ -4,6 +4,8 @@ class TicketsController < ApplicationController
   after_action :broadcast_reset, only: [ :reset ]
 
   def index
+    Rails.logger.info("[TicketsController#index] Starting ticket listing process !")
+
     @tickets = Ticket.all
     # TODO: this will refresh the status of reserved tickets that havent finished the purchase
     @tickets.each(&:reserved?)
@@ -43,6 +45,8 @@ class TicketsController < ApplicationController
   private
 
   def handle_ticket(status_method, new_status)
+    Rails.logger.info("[TicketsController#handle_ticket] Processing ticket ##{@ticket.id} - Status change: #{new_status}") if @ticket.present?
+
     Ticket.transaction do
       if ticket_eligible?(status_method)
         update_ticket_status(new_status)
