@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/faker-ruby/faker.git
-  revision: 6ba06393f47d4018b5fdbdaaa04eb9891ae5fb55
+  revision: e50707200cdecb4110e207d87bb1db7b11ad3e7e
   branch: main
   specs:
-    faker (3.4.2)
+    faker (3.5.1)
       i18n (>= 1.8.11, < 2)
 
 GEM
@@ -88,7 +88,7 @@ GEM
     brakeman (6.2.1)
       racc
     builder (3.3.0)
-    concurrent-ruby (1.3.4)
+    concurrent-ruby (1.3.5)
     connection_pool (2.4.1)
     crass (1.0.6)
     date (3.3.4)
@@ -124,7 +124,7 @@ GEM
       railties (>= 5.0.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    i18n (1.14.6)
+    i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     io-console (0.7.2)
     irb (1.14.0)
